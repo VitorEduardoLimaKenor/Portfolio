@@ -128,24 +128,83 @@
     0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
     50% { box-shadow: 0 0 0 6px rgba(6,182,212,0); }
   }
+  .hero-status {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    color: var(--text-dim); letter-spacing: 0.18em; text-transform: uppercase;
+    width: fit-content;
+    animation: fadeInUp 0.6s ease both;
+  }
+  .hero-status::before {
+    content: ''; width: 24px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan));
+  }
+  .hero-status .live-dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: #4ade80; box-shadow: 0 0 10px #4ade80;
+    animation: pulse-soft 2s infinite;
+  }
+  @keyframes pulse-soft {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+    50% { box-shadow: 0 0 0 7px rgba(74,222,128,0); }
+  }
+
   .hero-name {
+    position: relative;
     font-size: clamp(42px, 5vw, 72px);
     font-weight: 700; line-height: 1.05;
     letter-spacing: -0.02em;
     animation: fadeInUp 0.6s 0.1s ease both;
   }
-  .hero-name .accent-cyan { color: var(--cyan); }
-  .hero-name .accent-indigo { color: var(--indigo); }
+  .hero-name::before {
+    content: '';
+    position: absolute; top: 50%; left: -10%;
+    width: 80%; height: 80%; transform: translateY(-50%);
+    background: radial-gradient(ellipse at center, rgba(6,182,212,0.18), transparent 65%);
+    filter: blur(40px); z-index: -1; pointer-events: none;
+    animation: glowShift 8s ease-in-out infinite;
+  }
+  @keyframes glowShift {
+    0%, 100% { transform: translate(0, -50%) scale(1); opacity: 0.9; }
+    50% { transform: translate(8%, -50%) scale(1.1); opacity: 1; }
+  }
+  .hero-name .accent-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #06b6d4 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: gradientShift 6s ease infinite;
+  }
+  .hero-name .accent-indigo {
+    background: linear-gradient(135deg, #818cf8 0%, #a5b4fc 50%, #818cf8 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: gradientShift 6s ease infinite 0.5s;
+  }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
   .hero-tagline {
-    font-family: var(--font-mono); font-size: 14px; font-weight: 400;
+    font-family: var(--font-mono); font-size: 15px; font-weight: 400;
     color: var(--text-dim); letter-spacing: 0.05em;
     animation: fadeInUp 0.6s 0.2s ease both;
+    display: inline-flex; align-items: center;
+    padding: 8px 16px; border-radius: 8px;
+    background: rgba(6,182,212,0.04); border: 1px solid rgba(6,182,212,0.12);
+    width: fit-content;
   }
-  .hero-tagline .typed-text { color: var(--cyan); }
+  .hero-tagline .typed-text {
+    color: var(--cyan); font-weight: 500;
+    text-shadow: 0 0 12px rgba(6,182,212,0.4);
+  }
   .hero-tagline .cursor-blink {
-    display: inline-block; width: 2px; height: 14px;
+    display: inline-block; width: 2px; height: 16px;
     background: var(--cyan); margin-left: 2px; vertical-align: middle;
     animation: blink 1s step-end infinite;
+    box-shadow: 0 0 8px var(--cyan);
   }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -204,24 +263,24 @@
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
   .terminal-bar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px;
     background: rgba(255,255,255,0.03);
     border-bottom: 1px solid var(--border);
   }
-  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
   .terminal-dot.red { background: #ff5f57; }
   .terminal-dot.yellow { background: #ffbd2e; }
   .terminal-dot.green { background: #28c840; }
   .terminal-title {
     flex: 1; text-align: center;
-    font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
     letter-spacing: 0.05em;
   }
   .terminal-body {
-    padding: 20px;
-    font-family: var(--font-mono); font-size: 13px; line-height: 1.8;
-    min-height: 320px;
+    padding: 28px 26px;
+    font-family: var(--font-mono); font-size: 14px; line-height: 1.9;
+    min-height: 420px;
   }
   .t-line { display: flex; gap: 8px; }
   .t-prompt { color: var(--cyan); user-select: none; }
@@ -743,12 +802,6 @@
 <div class="grid-overlay"></div>
 <canvas id="bg-canvas"></canvas>
 
-<!-- Floating CTA -->
-<a href="mailto:vitoreduardokenor@gmail.com" id="float-cta" class="hidden">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-  <span class="float-label">Fale comigo</span>
-</a>
-
 <nav id="main-nav">
   <a href="#hero" class="nav-logo">vitor<span>.dev</span></a>
   <ul class="nav-links">
@@ -764,12 +817,14 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <div class="hero-badge">Disponível agora · resposta em &lt;24h</div>
+    <div class="hero-status">
+      <span class="live-dot"></span>
+      Software Engineer · UTFPR
+    </div>
 
     <h1 class="hero-name">
-      Vitor<br>
-      <span class="accent-cyan">Eduardo</span><br>
-      <span class="accent-indigo">de Lima</span>
+      Vitor <span class="accent-cyan">Eduardo</span><br>
+      <span class="accent-indigo">de Lima Kenor</span>
     </h1>
 
     <p class="hero-tagline">
@@ -777,7 +832,7 @@
     </p>
 
     <p class="hero-desc">
-      Estudante de Ciência da Computação na UTFPR. Trabalho com LLMs, RAG e Python Backend, com uma obsessão saudável por entender como as coisas funcionam por dentro.
+      Software Engineer com mais de 2 anos de experiência em backend, automação e aplicações baseadas em IA. Especializado em APIs, agentes inteligentes e integrações escaláveis com Python.
     </p>
 
     <div class="hero-actions">
@@ -785,9 +840,8 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         Enviar mensagem
       </a>
-      <!-- Troque o href por um link direto para seu PDF quando tiver o arquivo -->
-      <a href="https://www.linkedin.com/in/vitor-eduardo-de-lima-kenor-803464273/" target="_blank" class="btn-ghost btn-cv">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <a href="CV-Vitor-Eduardo-de-Lima-Kenor.pdf" download="CV-Vitor-Eduardo-de-Lima-Kenor.pdf" class="btn-ghost btn-cv">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Baixar CV
       </a>
     </div>
@@ -829,30 +883,30 @@
 <section id="about" class="reveal">
   <div>
     <p class="section-label">About me</p>
-    <h2 class="section-title">Olá, eu sou o <span>Vitor</span> ツ</h2>
+    <h2 class="section-title">Olá, eu sou o <span>Vitor</span></h2>
     <p class="about-text">
-      Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná (UTFPR), em Santa Helena/PR. Atualmente trabalho com <strong style="color:var(--cyan)">LLMs e RAG</strong> e estudo Back-End Python paralelamente.
+      Software Engineer atuando como <strong style="color:var(--cyan)">Desenvolvedor Backend Júnior na BigLink</strong> desde 2024, com foco em APIs Python, agentes de IA e automações. Estudante de Ciência da Computação na UTFPR (Santa Helena/PR) — 7º período.
     </p>
     <p class="about-text">
-      Estou constantemente atualizando meus conhecimentos e buscando novos desafios na área de tecnologia. Tenho paixão por aprender e aplicar conhecimentos para criar soluções inovadoras.
+      Construo <strong style="color:var(--indigo)">APIs com FastAPI + PostgreSQL</strong>, agentes baseados em LLMs com LangChain, pipelines em n8n e fluxos automatizados para WhatsApp e sistemas corporativos — tudo containerizado em Docker. Em paralelo, já participei de uma <strong style="color:var(--cyan)">Iniciação Científica</strong> em arquiteturas RAG na UTFPR e atualmente atuo em outra, focada em validação de bases climáticas brasileiras.
     </p>
 
     <div class="about-stats">
       <div class="stat-card">
-        <div class="stat-num">3+</div>
-        <div class="stat-label">Anos estudando IA & Python</div>
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Anos de experiência em backend & IA</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">92%</div>
-        <div class="stat-label">Acurácia no projeto CNN</div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Iniciações Científicas na UTFPR</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">5+</div>
-        <div class="stat-label">Tecnologias de IA dominadas</div>
+        <div class="stat-num">LAMIA</div>
+        <div class="stat-label">Integrante · parceria com o CEIA</div>
       </div>
       <div class="stat-card">
         <div class="stat-num">UTFPR</div>
-        <div class="stat-label">Santa Helena/PR · Ciência da Computação</div>
+        <div class="stat-label">Ciência da Computação · 2023–2027</div>
       </div>
     </div>
   </div>
@@ -874,7 +928,7 @@
         </div>
         <div class="avatar-status">
           <span class="avail-dot" style="width:7px;height:7px;flex-shrink:0"></span>
-          Open to work · 2025
+          Open to work · 2026
         </div>
       </div>
     </div>
@@ -892,15 +946,15 @@
     <div class="skill-category">
       <div class="skill-cat-label">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        IA & Machine Learning
+        IA & LLMs
       </div>
       <div class="skill-tags">
         <span class="skill-tag">LLMs</span>
         <span class="skill-tag">LangChain</span>
         <span class="skill-tag">RAG</span>
-        <span class="skill-tag">CNN</span>
-        <span class="skill-tag">Deep Learning</span>
-        <span class="skill-tag">N8N</span>
+        <span class="skill-tag">AI Agents</span>
+        <span class="skill-tag">Embeddings</span>
+        <span class="skill-tag">Vector Stores</span>
       </div>
     </div>
 
@@ -912,22 +966,24 @@
       <div class="skill-tags">
         <span class="skill-tag">Python</span>
         <span class="skill-tag">FastAPI</span>
-        <span class="skill-tag">Django</span>
-        <span class="skill-tag">REST APIs</span>
         <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">SQL</span>
       </div>
     </div>
 
     <div class="skill-category">
       <div class="skill-cat-label">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        DevOps & Ferramentas
+        DevOps & Automação
       </div>
       <div class="skill-tags">
         <span class="skill-tag">Docker</span>
+        <span class="skill-tag">n8n</span>
         <span class="skill-tag">Git</span>
         <span class="skill-tag">GitHub</span>
         <span class="skill-tag">Linux</span>
+        <span class="skill-tag">WhatsApp API</span>
       </div>
     </div>
 
@@ -943,7 +999,7 @@
           </div>
           <div class="soft-skill-body">
             <div class="soft-skill-name">Trabalho em Equipe</div>
-            <div class="soft-skill-evidence">Projetos colaborativos na UTFPR e participação em bootcamp com entrega em grupo sob prazo.</div>
+            <div class="soft-skill-evidence">Atuação no time de backend da BigLink e em projetos do LAMIA/UTFPR em parceria com o CEIA, incluindo o chatbot institucional.</div>
           </div>
         </div>
         <div class="soft-skill-item">
@@ -951,8 +1007,8 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
           </div>
           <div class="soft-skill-body">
-            <div class="soft-skill-name">Comunicação Técnica</div>
-            <div class="soft-skill-evidence">Capaz de explicar conceitos de LLMs e RAG para públicos não técnicos — habilidade desenvolvida em apresentações na universidade.</div>
+            <div class="soft-skill-name">Arquitetura de Software</div>
+            <div class="soft-skill-evidence">Foco em soluções orientadas a negócio: design de APIs, agentes inteligentes e integrações escaláveis com Python, FastAPI e PostgreSQL.</div>
           </div>
         </div>
         <div class="soft-skill-item">
@@ -960,8 +1016,8 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           </div>
           <div class="soft-skill-body">
-            <div class="soft-skill-name">Aprendizado Contínuo</div>
-            <div class="soft-skill-evidence">Estuda paralelamente IA aplicada, backend Python e DevOps — mantém repositório público atualizado com experimentos.</div>
+            <div class="soft-skill-name">Pesquisa Aplicada</div>
+            <div class="soft-skill-evidence">Duas Iniciações Científicas na UTFPR: arquiteturas RAG (2025) e validação de bases climáticas brasileiras (2026).</div>
           </div>
         </div>
       </div>
@@ -977,12 +1033,12 @@
   <h2 class="section-title">O que eu <span>construí</span></h2>
 
   <div class="projects-grid">
-    <div class="project-card featured" id="proj-card-1">
+    <div class="project-card featured" id="proj-card-1" style="grid-template-columns: 1fr;">
       <div>
         <div class="project-num">// project_01</div>
-        <h3 class="project-title">Dog Breed Classifier</h3>
+        <h3 class="project-title">Dog Breeds Classifier</h3>
         <p class="project-desc">
-          Projeto de conclusão de bootcamp: classificador de raças de cães usando Deep Learning e Redes Neurais Convolucionais (CNN) para prever a raça a partir de imagens com alta acurácia.
+          Classificador de raças de cães desenvolvido com Deep Learning e Redes Neurais Convolucionais (CNN), capaz de prever a raça a partir de uma imagem com <strong style="color:var(--cyan)">92% de acurácia</strong>. Projeto desenvolvido como conclusão de bootcamp e disponibilizado como serviço web aberto para uso público.
         </p>
         <div class="project-stack">
           <span class="stack-tag">Python</span>
@@ -992,65 +1048,15 @@
           <span class="stack-tag">TensorFlow</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/VitorEduardoLimaKenor" target="_blank" class="project-link">
+          <a href="https://github.com/VitorEduardoLimaKenor/Dog_Breeds_Classifier" target="_blank" class="project-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            GitHub
+            Repositório
+          </a>
+          <a href="https://www.dog-breeds-classifier.lat/" target="_blank" class="project-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Acessar site
           </a>
         </div>
-      </div>
-      <div class="project-visual">
-        <div class="pv-icon">🐕</div>
-        <div class="pv-accuracy">92%</div>
-        <div class="pv-label">Model Accuracy</div>
-        <div class="pv-bar"><div class="pv-fill"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" id="proj-card-2">
-      <div class="project-num">// project_02</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:3px 10px;border-radius:4px;margin-bottom:12px;letter-spacing:0.08em;">
-        <span style="width:5px;height:5px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-        EM DESENVOLVIMENTO
-      </div>
-      <h3 class="project-title">RAG Pipeline</h3>
-      <p class="project-desc">
-        Pipeline de Retrieval-Augmented Generation para consulta inteligente de documentos. Estudo prático de embeddings, vector stores e integração com LLMs via LangChain.
-      </p>
-      <div class="project-stack">
-        <span class="stack-tag">LangChain</span>
-        <span class="stack-tag">FastAPI</span>
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">LLMs</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VitorEduardoLimaKenor" target="_blank" class="project-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
-
-    <div class="project-card" id="proj-card-3">
-      <div class="project-num">// project_03</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:3px 10px;border-radius:4px;margin-bottom:12px;letter-spacing:0.08em;">
-        <span style="width:5px;height:5px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-        EM DESENVOLVIMENTO
-      </div>
-      <h3 class="project-title">AI Automation Flows</h3>
-      <p class="project-desc">
-        Exploração de automações inteligentes com N8N integradas a modelos de linguagem. Estudo de fluxos de processamento e roteamento de dados com LLMs.
-      </p>
-      <div class="project-stack">
-        <span class="stack-tag">N8N</span>
-        <span class="stack-tag">LLMs</span>
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Webhooks</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VitorEduardoLimaKenor" target="_blank" class="project-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          GitHub
-        </a>
       </div>
     </div>
   </div>
@@ -1065,70 +1071,82 @@
     <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="tl-date">2024 — Presente</div>
-      <div class="tl-role">AI Engineer (Estudos & Projetos)</div>
-      <div class="tl-company">Independente · Santa Helena/PR</div>
-      <div class="tl-result">Construindo pipelines RAG funcionais e integrações com LLMs do zero.</div>
-      <p class="tl-desc">Desenvolvimento de pipelines RAG, integrações com LLMs, automações com N8N e projetos de IA aplicada. Foco em soluções práticas com Python e LangChain.</p>
+      <div class="tl-role">Desenvolvedor Backend Júnior</div>
+      <div class="tl-company">BigLink</div>
+      <div class="tl-result">Construção de APIs, agentes de IA e automações em produção com Python, FastAPI e PostgreSQL.</div>
+      <p class="tl-desc">Desenvolvimento de aplicações backend com Python, FastAPI e PostgreSQL; construção de agentes de IA e arquiteturas baseadas em LLMs com LangChain; pipelines e automações em n8n; fluxos automatizados para WhatsApp e sistemas corporativos; containerização e deploy de aplicações com Docker.</p>
       <div class="tl-tags">
-        <span class="tl-tag">LLMs</span>
-        <span class="tl-tag">RAG</span>
-        <span class="tl-tag">LangChain</span>
-        <span class="tl-tag">N8N</span>
         <span class="tl-tag">Python</span>
+        <span class="tl-tag">FastAPI</span>
+        <span class="tl-tag">PostgreSQL</span>
+        <span class="tl-tag">LangChain</span>
+        <span class="tl-tag">n8n</span>
+        <span class="tl-tag">Docker</span>
       </div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-dot" style="border-color:var(--indigo); box-shadow: 0 0 12px rgba(129,140,248,0.5)"></div>
-      <div class="tl-date" style="color:var(--indigo)">2023 — 2024</div>
-      <div class="tl-role">Bootcamp de Deep Learning</div>
-      <div class="tl-company">Formação em IA & Machine Learning</div>
-      <div class="tl-result">92% de acurácia no projeto final — classificador de raças de cães com CNN.</div>
-      <p class="tl-desc">Bootcamp intensivo em Deep Learning com projeto final entregue: classificador de raças de cães com CNN treinado sobre dataset de imagens reais.</p>
+      <div class="tl-date" style="color:var(--indigo)">2026 · 7º período</div>
+      <div class="tl-role">Iniciação Científica · Validação de Bases Climáticas</div>
+      <div class="tl-company">UTFPR — Santa Helena, PR</div>
+      <div class="tl-result">Pesquisa em tratamento, comparação e confiabilidade de bases climáticas brasileiras.</div>
+      <p class="tl-desc">Validação e análise de bases de dados climáticos brasileiros, utilizando técnicas computacionais para tratamento, comparação e avaliação de confiabilidade de dados.</p>
       <div class="tl-tags">
-        <span class="tl-tag">Deep Learning</span>
-        <span class="tl-tag">CNN</span>
         <span class="tl-tag">Python</span>
-        <span class="tl-tag">Computer Vision</span>
+        <span class="tl-tag">Data Analysis</span>
+        <span class="tl-tag">Pesquisa</span>
+        <span class="tl-tag">Climate Data</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--indigo); box-shadow: 0 0 12px rgba(129,140,248,0.5)"></div>
+      <div class="tl-date" style="color:var(--indigo)">2025 · 6º período</div>
+      <div class="tl-role">Iniciação Científica · Arquiteturas RAG</div>
+      <div class="tl-company">UTFPR — Santa Helena, PR</div>
+      <div class="tl-result">Estratégias de recuperação de exemplos similares para enriquecer contexto de LLMs.</div>
+      <p class="tl-desc">Pesquisa voltada para arquiteturas Retrieval-Augmented Generation (RAG), com foco em estratégias de recuperação de exemplos similares para enriquecimento de contexto e melhoria da qualidade de respostas geradas por LLMs.</p>
+      <div class="tl-tags">
+        <span class="tl-tag">RAG</span>
+        <span class="tl-tag">LLMs</span>
+        <span class="tl-tag">LangChain</span>
+        <span class="tl-tag">Embeddings</span>
       </div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-dot" style="border-color:rgba(6,182,212,0.4); box-shadow: none"></div>
-      <div class="tl-date">2022 — Presente</div>
-      <div class="tl-role">Bacharel em Ciência da Computação</div>
-      <div class="tl-company">UTFPR — Santa Helena, PR</div>
-      <div class="tl-result">Formação técnica sólida em algoritmos, sistemas e engenharia de software.</div>
-      <p class="tl-desc">Disciplinas de algoritmos, estruturas de dados, sistemas operacionais, banco de dados e engenharia de software — base que sustenta a atuação em IA e backend.</p>
+      <div class="tl-date">2023 — 2027</div>
+      <div class="tl-role">Bacharelado em Ciência da Computação</div>
+      <div class="tl-company">UTFPR — Santa Helena, PR · Integrante do LAMIA</div>
+      <div class="tl-result">Projetos de pesquisa em IA em parceria com o CEIA, incluindo chatbot institucional da universidade.</div>
+      <p class="tl-desc">Integrante do LAMIA/UTFPR, com participação em projetos de pesquisa e desenvolvimento em parceria com o CEIA. Desenvolvimento de chatbot institucional para a universidade e duas iniciações científicas nas áreas de Inteligência Artificial e análise de dados.</p>
       <div class="tl-tags">
-        <span class="tl-tag">Algoritmos</span>
-        <span class="tl-tag">Estruturas de Dados</span>
-        <span class="tl-tag">Banco de Dados</span>
-        <span class="tl-tag">Engenharia de Software</span>
+        <span class="tl-tag">LAMIA</span>
+        <span class="tl-tag">CEIA</span>
+        <span class="tl-tag">Chatbot Institucional</span>
+        <span class="tl-tag">IA</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:rgba(6,182,212,0.4); box-shadow: none"></div>
+      <div class="tl-date">2026</div>
+      <div class="tl-role">Certificação · Git e GitHub</div>
+      <div class="tl-company">Alura</div>
+      <div class="tl-result">Fluxos de versionamento, colaboração e boas práticas em repositórios.</div>
+      <p class="tl-desc">Certificação em Git e GitHub pela Alura — cobrindo branching, pull requests, workflows colaborativos e boas práticas de versionamento.</p>
+      <div class="tl-tags">
+        <span class="tl-tag">Git</span>
+        <span class="tl-tag">GitHub</span>
+        <span class="tl-tag">Alura</span>
       </div>
     </div>
   </div>
 </section>
 
 <div class="section-divider"></div>
-
-<div class="section-divider"></div>
-
-<!-- MID-PAGE CTA STRIP -->
-<div class="cta-strip reveal">
-  <div class="cta-strip-text">
-    <div class="cta-strip-label">Open to work</div>
-    <div class="cta-strip-title">Gostou do que viu? <span style="color:var(--cyan)">Vamos trabalhar juntos.</span></div>
-    <div class="cta-strip-sub">Disponível para estágios, projetos freelance e oportunidades em IA &amp; Backend — Curitiba/PR ou remote.</div>
-  </div>
-  <div class="cta-strip-actions">
-    <a href="mailto:vitoreduardokenor@gmail.com" class="btn-primary">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      Enviar mensagem
-    </a>
-    <div class="cta-strip-reply">Resposta em menos de 24 horas</div>
-  </div>
-</div>
 
 <!-- CONTACT -->
 <section id="contact" class="reveal">
@@ -1177,8 +1195,7 @@
 
 <footer>
   <span style="font-family:var(--font-mono)">vitor<span style="color:var(--cyan)">.dev</span></span>
-  <span>Desenvolvido com ♥ em Python &amp; HTML</span>
-  <span>© 2025 Vitor Eduardo de Lima Kenor</span>
+  <span>© 2026 Vitor Eduardo de Lima Kenor</span>
 </footer>
 
 <!-- Tweaks Panel -->
@@ -1226,20 +1243,13 @@ ReactDOM.createRoot(tweaksRoot).render(<TweaksApp />);
 </script>
 
 <script>
-// Scroll progress bar + float CTA
+// Scroll progress bar
 const nav = document.getElementById('main-nav');
 const progressBar = document.getElementById('scroll-progress');
-const floatCta = document.getElementById('float-cta');
 window.addEventListener('scroll', () => {
   const scrolled = window.scrollY;
   const total = document.body.scrollHeight - window.innerHeight;
   progressBar.style.width = (scrolled / total * 100) + '%';
-  // Show float CTA after scrolling past hero
-  if (scrolled > window.innerHeight * 0.6) {
-    floatCta.classList.remove('hidden');
-  } else {
-    floatCta.classList.add('hidden');
-  }
   nav.classList.toggle('scrolled', scrolled > 40);
 });
 
@@ -1320,7 +1330,7 @@ document.querySelectorAll('.project-card').forEach(card => {
 });
 
 // Hero typing effect
-const roles = ['AI Engineer', 'Backend Developer'];
+const roles = ['Software Engineer', 'Backend Developer', 'AI Engineer'];
 let ri = 0, ci = 0, deleting = false;
 const typedEl = document.getElementById('typed-role');
 function typeLoop() {
@@ -1342,12 +1352,12 @@ typeLoop();
 const termLines = [
   { delay: 300,  type: 'cmd',    text: 'whoami' },
   { delay: 900,  type: 'output', text: 'Vitor Eduardo de Lima Kenor', cls: 'cyan' },
-  { delay: 1200, type: 'output', text: 'AI Engineer & Backend Developer', cls: 'indigo' },
-  { delay: 1600, type: 'cmd',    text: 'cat skills.json' },
+  { delay: 1200, type: 'output', text: 'Software Engineer @ BigLink · UTFPR', cls: 'indigo' },
+  { delay: 1600, type: 'cmd',    text: 'cat stack.json' },
   { delay: 2200, type: 'output', text: '{' },
-  { delay: 2400, type: 'output', text: '  "ai": ["LLMs", "RAG", "LangChain", "CNN"],' },
-  { delay: 2600, type: 'output', text: '  "backend": ["Python", "FastAPI", "Django"],' },
-  { delay: 2800, type: 'output', text: '  "tools": ["Docker", "Git", "N8N"]' },
+  { delay: 2400, type: 'output', text: '  "backend": ["Python", "FastAPI", "PostgreSQL"],' },
+  { delay: 2600, type: 'output', text: '  "ai":      ["LLMs", "LangChain", "RAG"],' },
+  { delay: 2800, type: 'output', text: '  "devops":  ["Docker", "n8n", "Git"]' },
   { delay: 3000, type: 'output', text: '}', cls: 'dim' },
   { delay: 3400, type: 'cmd',    text: 'echo $STATUS' },
   { delay: 3900, type: 'output', text: '✓ Available for opportunities', cls: 'green' },
